@@ -1,0 +1,105 @@
+#accouning-screen .not-flow {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
+#accounting-screen .flow {
+	overflow-y: auto;
+	height: 60vh;
+	overflow-x: hidden;
+}
+
+::-webkit-scrollbar {display:none;}
+
+
+/*#accounting-top-bar {
+	height: 8vh;
+}*/
+/*
+#accounting-top-bar #accounting-back-button {
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	left: 15px;
+	top: 15px;
+}*/
+
+/*#accounting-top-bar #TASK{
+	font-size: 20px;
+	color: white;
+	font-weight: bold;
+}
+
+#accounting-top-bar #accounting-task {
+	position: relative;
+	top: -2%;
+	left: -10%;
+	font-size: 20px;
+	color: white;
+	font-weight: bold;
+}*/
+
+/*#accounting-search-bar .search-bar {
+	height: 5vh;
+	background-color: #2468AC;
+	border: none;
+}
+
+#accounting-search-bar ::placeholder {
+	color:#e6e6e6;
+}*/
+/*
+#ACCOUNTING {
+	height: 8vh;
+	width: 100%;
+	float: right;
+	clear: both;
+	color: #e6e6e6;
+	font-size: 35px;
+}*/
+
+/*#accounting-title-row {
+	height: 5vh;
+	font-size: 18px;
+	color: white;
+	font-weight: bold;
+}*/
+
+.accounting-row-wrapper .accounting-row {
+	color: white;
+	font-size: 18px;
+	position: relative;
+	top: 23%;
+}
+
+.accounting-row-wrapper .row-one {
+	float: right;
+	clear: both;
+	width: 100vw;
+	height: 8vh;
+}
+
+.accounting-row-wrapper .row-two {
+	float: right;
+	clear: both;
+	height: 8vh;
+	width: 100vw;
+	background: #2468AC; /* row color */
+} 
+
+.accounting-row-wrapper .row-one .input-pay {
+	border:none;
+	width: 70%;
+	color: white;
+	text-align: center;
+	background:#80bdff;
+}
+
+.accounting-row-wrapper .row-two .input-pay {
+	background: #3396ff;
+	border:none;
+	width: 70%;
+	color: white;
+	text-align: center;
+}
+

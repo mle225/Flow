@@ -1,0 +1,74 @@
+#members-screen .not-flow {
+	overflow-y: hidden;
+	height: 18vh;
+	overflow-x: hidden;
+}
+#members-screen .flow {
+	overflow-y: scroll;
+	height: 82vh;
+	overflow-x: hidden;
+}
+
+#members-top-bar {
+	height: 8vh;
+}
+
+#members-top-bar #back-button {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 2%;
+	top: 2%;
+}
+
+#members-top-bar #title {
+	position: relative;
+	top: 23%;
+	font-size: 25px;
+	color: white;
+	font-weight:bold;
+}
+
+#members-top-bar #add-button {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 93%;
+	top: 2%;
+}
+
+#members-search-bar .search-bar {
+	height: 5vh;
+	background-color: #2468AC;
+	border: none;
+}
+
+#members-search-bar ::placeholder {
+	color:#CCCCCC;
+}
+
+.members-row {
+	color: white;
+	font-size: 18px;
+}
+
+.members-row .row-one {
+	float: right;
+	clear: both;
+	width: 100vw;
+	height: 8vh;
+}
+
+.members-row .row-two {
+	float: right;
+	clear: both;
+	height: 8vh;
+	width: 100vw;
+	background: #2468AC;
+} 
+
+.members-row .name {
+	position: relative;
+	left: -40px;
+	top: 5px;
+}

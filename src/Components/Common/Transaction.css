@@ -1,0 +1,67 @@
+#transaction-screen .not-flow {
+	overflow-y: hidden;
+	height: 18vh;
+	overflow-x: hidden;
+}
+#transaction-screen .flow {
+	overflow-y: scroll;
+	height: 82vh;
+	overflow-x: hidden;
+}
+
+#transaction-top-bar {
+	height: 8vh;
+}
+
+#transaction-top-bar #back-button {
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 2%;
+	top: 2%;
+}
+
+#transaction-top-bar #title {
+	position: relative;
+	top: 23%;
+	font-size: 25px;
+	color: white;
+	font-weight:bold;
+}
+
+
+#transaction-search-bar .search-bar {
+	height: 5vh;
+	background-color: #2468AC;
+	border: none;
+}
+
+#transaction-search-bar ::placeholder {
+	color:#CCCCCC;
+}
+
+.transaction-row {
+	color: white;
+	font-size: 18px;
+}
+
+.transaction-row .row-one {
+	float: right;
+	clear: both;
+	width: 100vw;
+	height: 8vh;
+}
+
+.transaction-row .row-two {
+	float: right;
+	clear: both;
+	height: 8vh;
+	width: 100vw;
+	background: #2468AC;
+} 
+
+.transaction-row .description, .amount {
+	position: relative;
+	top: 10%;
+	left: 5%;
+}

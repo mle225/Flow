@@ -1,0 +1,86 @@
+
+
+#trip-screen .flow {
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+/*#trip-top-bar {
+	height: 8vh;
+}*/
+
+/*#trip-top-bar .name {
+	position: relative;
+	top: 5%;
+	left: -10%;
+	font-size: 20px;
+	color: white;
+	font-weight: bold;
+}
+
+#trip-top-bar .settings {
+	position: relative;
+	top: 18%;
+	right: -30%;
+}*/
+
+#trip-search-bar .search-bar {
+	height: 5vh;
+	background-color: #2468AC;
+	border: none;
+}
+
+#trip-search-bar ::placeholder {
+	color:#CCCCCC;
+}
+
+/*#TRIPS {
+	height: 10vh;
+	width: 100%;
+	float: right;
+	clear: both;
+	color: #A9A9A9;
+	font-size: 35px;
+}*/
+
+.row-one {
+	width: 100%;
+/*	float: right;
+	clear: both;
+	width: 100vw;
+	height: 8vh;
+	position: relative;
+	top: 20%;*/
+}
+
+.row-two {
+	width: 100%;
+	background: #2468AC;
+/*	float: right;
+	clear: both;
+	height: 8vh;
+	width: 100vw;
+	position: relative;
+	top: 20%;*/
+} 
+
+/*.trip-row .trip-avatar {
+ 	position: relative;
+ 	top: -20%;
+ 	left: 25%;
+}*/
+
+/*.trip-row .trip-name {
+ 	position: relative;
+ 	top: -10%;
+ 	font-size: 20px;
+ 	color: white;
+ 	font-weight: bold;
+}*/
+
+/*.trip-row .trip-settings {
+	position: relative;
+ 	top: -10%;
+ 	left: 45%;
+}*/
+
