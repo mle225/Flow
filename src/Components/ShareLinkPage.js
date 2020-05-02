@@ -9,7 +9,11 @@ export default class ShareLinkPage extends Component {
 		this.state={
 			currentEmail: '',
 			tripName:this.props.tripName,
-			emails:[]
+			emails:[
+				'a@g.com',
+				'b@g.com',
+				'c@g.com'
+			]
 		}
 	}
 
@@ -35,7 +39,12 @@ export default class ShareLinkPage extends Component {
 	}
 
 	add = () => {
-		console.log('yea');
+		let newEmails = this.state.emails;
+		newEmails.push(this.state.currentEmail);
+		this.setState({
+			currentEmail: '',
+			emails: newEmails
+		})
 	}
 
 	render() {
@@ -48,7 +57,7 @@ export default class ShareLinkPage extends Component {
 					<div className='pa2 center tc w-50'>
 						<InputLine
 							type='email'
-							value='Enter member email'
+							value='Enter email'
 							onChange={this.onFieldChange}
 						/>
 					</div>
@@ -59,6 +68,11 @@ export default class ShareLinkPage extends Component {
 							onClick={this.add}
 						/>
 					</div> 
+					<div className='pa2 tc'>
+						<MemList
+							list={this.state.emails}
+						/>
+					</div>
 				</div>
 			</div>
 		)
@@ -69,11 +83,34 @@ class MemList extends Component {
 
 	render() {
 		const list = this.props.list;
+		const rows = [];
+
+		list.forEach(entry => {
+			rows.push(
+				<MemRow 
+					email={entry} 
+				/>
+			)
+		})
 		return (
 			<div>
-
+				{rows}
 			</div>
 		)
 	}
 } 
+
+class MemRow extends Component {
+
+	render() {
+		const {email} = this.props;
+		return (
+			<p className='pa1 tc white f5 underline'> 
+				{email}
+			</p>
+		)
+	}
+}
+
+
 
