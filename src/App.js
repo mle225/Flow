@@ -12,12 +12,14 @@ import Members from './Components/Members';
 import Accounting from './Components/Accounting';
 import AddTripPage from './Components/AddTripPage';
 import ImportMemberPage from './Components/ImportMemberPage';
+import ConfirmImport from './Components/ConfirmImport';
+import ShareLinkPage from './Components/ShareLinkPage';
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: "memlink",
+      page: "sharelink",
       user: {
         email: '',
         username: '',
@@ -71,11 +73,27 @@ class App extends Component {
           <Members />
         );
 
+      case "sharelink":
+        return (
+          <ShareLinkPage 
+          />
+        )
+
       case "forget":
         return (
           <ForgotPage 
             changePage={this.changePage} 
           />
+        )
+
+      case "confirmImport":
+        return (
+            <ConfirmImport
+              changePage={this.changePage}
+              groupName='Utah Trip'
+              ava="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/%27David%27_by_Michelangelo_Fir_JBU013.jpg/165px-%27David%27_by_Michelangelo_Fir_JBU013.jpg"
+              link="http://pronhup.com"
+            />
         )
 
       case "addtrip":

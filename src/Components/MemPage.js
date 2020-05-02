@@ -3,25 +3,10 @@ import Avatar from './Common/Avatar';
 import Butt from './Common/Butt';
 
 class MemPage extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			email: "",
-			password: ""
-		}
-	}
 
 	continue = e => {
 		e.preventDefault();
 		this.props.changePage("trips");
-	}
-
-	onEmailChange = e => {
-		this.setState({email: e.target.value})
-	}
-
-	onPasswordChange = e => {
-		this.setState({password: e.target.value})
 	}
 
 	forget = e => {
@@ -43,12 +28,12 @@ class MemPage extends Component {
 					<input className='hover-white center input-reset pa2 inputborder bg-transparent w-80'
 						type="email"
 						placeholder="Email"
-						onChange={this.onEmailChange}
+						onChange={this.props.handleChange('email')}
 					/> 
 					<input className='hover-white center input-reset pa2 inputborder bg-transparent w-80'
 						type="password"
 						placeholder="Password"
-						onChange={this.onPasswordChange}
+						onChange={this.props.handleChange('password')}
 					/> 
 					<div className='mt3'>
 						<Butt 

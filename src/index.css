@@ -20,3 +20,11 @@ code {
 .gen {
 	background-color: #FA9917;
 }
+
+.flow {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 60vh;
+}
+
+::-webkit-scrollbar {display:none;}
