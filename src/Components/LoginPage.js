@@ -22,7 +22,7 @@ class LoginPage extends Component {
 		})
 		.then(response => response.json())
 		.then(user => {
-			if (user.memberid) {
+			if (user.id) {
 				this.props.loadUser(user);
 				this.props.changePage("trips");
 			}

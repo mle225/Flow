@@ -13,16 +13,21 @@ import Avatar from './Common/Avatar';
 import List from './Common/List';
 
 // import fake data
-import {user, trips} from "./Common/example_trips.js"
+import fakeMemAva from "./Common/mtp.jpg";
+
+//import {user, trips} from "./Common/example_trips.js"
 
 export default class Trip extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			username: this.props.username,
-			tripid: this.props.tripid,
 			searchfield:''
 		}
+	}
+
+	static propTypes = {
+		user: PropTypes.object,
+		changePage: PropTypes.func,
 	}
 
 	personal = () => {
@@ -42,16 +47,23 @@ export default class Trip extends React.Component {
 	}
 
 	render () {
+		let trips = this.props.user.trips;
 		const ftrips = trips.filter(trip => {
 				return trip.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
-			})
+		})
+
+		let name_and_avatar = {
+			name: this.props.user.name,
+			avatar: fakeMemAva,
+		}
+
 		return (
 			<div id="trip-screen">
 				<div class="not-flow">
 					<TopBar
 						add={this.add}
 						getSet={this.getSet} 
-						user={user}
+						name_and_avatar={name_and_avatar}
 						personal={this.personal}
 					/>
 					<SearchBar
@@ -64,7 +76,7 @@ export default class Trip extends React.Component {
 			 	<div class="flow">
 					<List 
 						entries={ftrips}
-						ava={true}
+						avaOk={true}
 					/>
 				</div>
 			</div>
@@ -78,26 +90,27 @@ class TopBar extends React.Component {
 	}
 
 	static propTypes = {
-		user: PropTypes.object,
+		name_and_avater: PropTypes.object,
 	}
 
 	render () {
-		const username = this.props.user.name;
-		const avatar = this.props.user.avatar;
+		const name = this.props.name_and_avatar.name;
+		const avatar = this.props.name_and_avatar.avatar;
 
 		return (
 		  	<div id = "trip-top-bar" class = "flex justify-between w-100">
-		  		{/* Avatar */}
+		  		{/* Avatar*/}
+		  		 
 		  		<div className= "w-15 pl2 pr2 pb2 pt3 tc">
 		  			<Avatar  
-		  				link = {require("" + avatar)}
+		  				link = {avatar}
 		  				onClick={this.props.personal}
 		  			/>
 		  		</div>
 
 		  		{/* Name */}
 		  		<div class = "w-60 pa3 tl">
-		  			<div className='white b f4 lh-copy'>{username}</div>
+		  			<div className='white b f4 lh-copy'>{name}</div>
 		  		</div>
 
 		  		{/* Settings */}

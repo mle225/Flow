@@ -7,7 +7,7 @@ class CreatePage extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			username:'',
+			name:'',
 			email:'',
 			password:'',
 			confirmPass:''
@@ -20,7 +20,7 @@ class CreatePage extends Component {
 				method: 'post',
 				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify({
-					username: this.state.username,
+					name: this.state.name,
 					email: this.state.email,
 					password: this.state.password,
 				})
@@ -55,7 +55,7 @@ class CreatePage extends Component {
 	}
 
 	onUsernameChange = (event) => {
-		this.setState({username: event.target.value})
+		this.setState({name: event.target.value})
 	}
  
 	render() {

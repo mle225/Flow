@@ -19,10 +19,17 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
+<<<<<<< HEAD
       page: "trips",
+=======
+      page: "",
+>>>>>>> 52df36ea63acdcfe72e4a5575ae6b4a406227068
       user: {
+        id : '',
+        avatar: '',
         email: '',
-        username: '',
+        name: '',
+        trips: [],
       }
     }
   }
@@ -34,9 +41,13 @@ class App extends Component {
   };
 
   loadUser = (data) => {
+    console.log(data)
     this.setState({ user: {
+      id: data.id,
+      avatar: data.avatar,
       email: data.email,
-      username: data.username,
+      name: data.name,
+      trips: data.trips,
     }})
   }
 
@@ -122,7 +133,8 @@ class App extends Component {
 
       case "trips":
         return (
-          <Trip 
+          <Trip
+            user={this.state.user} 
             changePage={this.changePage}
           />
         )
