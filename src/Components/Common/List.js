@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Row from './Row';
+import PropTypes from 'prop-types';
 
 export default class List extends React.Component {
 	render () {
-		const {entries} = this.props;
+		const {entries, avaOk} = this.props;
 	  	const rows = []
 	  	let i = 0
 
@@ -20,8 +21,8 @@ export default class List extends React.Component {
 		  		<Row 
 		  			rowType={rowType} 
 		  			entry={entry}
-		  			ava={this.props.ava}
-		  			/>
+		  			avaOk={avaOk}
+		  		/>
 		  	);
 	  	});
 
