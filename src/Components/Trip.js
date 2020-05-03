@@ -48,9 +48,9 @@ export default class Trip extends React.Component {
 
 	render () {
 		let trips = this.props.user.trips;
-		const ftrips = trips.filter(trip => {
+		const ftrips =trips.filter(trip => {
 				return trip.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
-		})
+		});
 
 		let name_and_avatar = {
 			name: this.props.user.name,
@@ -59,7 +59,7 @@ export default class Trip extends React.Component {
 
 		return (
 			<div id="trip-screen">
-				<div class="not-flow">
+				<div className="not-flow">
 					<TopBar
 						add={this.add}
 						getSet={this.getSet} 
@@ -73,7 +73,7 @@ export default class Trip extends React.Component {
 						<Title/>
 					</div>
 			 	</div>
-			 	<div class="flow">
+			 	<div className="flow">
 					<List 
 						entries={ftrips}
 						avaOk={true}
@@ -98,7 +98,7 @@ class TopBar extends React.Component {
 		const avatar = this.props.name_and_avatar.avatar;
 
 		return (
-		  	<div id = "trip-top-bar" class = "flex justify-between w-100">
+		  	<div id = "trip-top-bar" className = "flex justify-between w-100">
 		  		{/* Avatar*/}
 		  		 
 		  		<div className= "w-15 pl2 pr2 pb2 pt3 tc">
@@ -109,12 +109,12 @@ class TopBar extends React.Component {
 		  		</div>
 
 		  		{/* Name */}
-		  		<div class = "w-60 pa3 tl">
+		  		<div className = "w-60 pa3 tl">
 		  			<div className='white b f4 lh-copy'>{name}</div>
 		  		</div>
 
 		  		{/* Settings */}
-		  		<div class = "w-25 pa3 tc flex justify-end">
+		  		<div className = "w-25 pa3 tc flex justify-end">
 		  			<div className='pr2 measure'>
 		  				<img 
 		  					src = {settingsLogo} 

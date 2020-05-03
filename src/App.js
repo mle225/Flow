@@ -19,7 +19,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: "",
+      page: "sharelink",
       user: {
         id : '',
         avatar: '',
@@ -83,6 +83,7 @@ class App extends Component {
       case "sharelink":
         return (
           <ShareLinkPage 
+            changePage={this.changePage}
           />
         )
 

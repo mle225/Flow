@@ -23,8 +23,17 @@ class LoginPage extends Component {
 		.then(response => response.json())
 		.then(user => {
 			if (user.id) {
-				this.props.loadUser(user);
-				this.props.changePage("trips");
+				if (user.trips[0]) {
+					console.log(1);
+					this.props.loadUser(user);
+					this.props.changePage("trips");
+				}
+				else {
+					user.trips=[];
+					console.log(2);
+					this.props.loadUser(user);
+					this.props.changePage("trips");
+				}
 			}
 		})
 		.catch(err => console.log(err));
