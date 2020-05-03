@@ -19,11 +19,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-<<<<<<< HEAD
-      page: "trips",
-=======
       page: "",
->>>>>>> 52df36ea63acdcfe72e4a5575ae6b4a406227068
       user: {
         id : '',
         avatar: '',
