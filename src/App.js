@@ -26,6 +26,17 @@ class App extends Component {
         email: '',
         name: '',
         trips: [],
+      },
+      trip: {
+        id: '',
+        avatar: '',
+        name: '',
+        events: [],
+      },
+      event : {
+        id: '',
+        name: '',
+        accountings: [],
       }
     }
   }
@@ -37,13 +48,32 @@ class App extends Component {
   };
 
   loadUser = (data) => {
-    console.log(data)
+    console.log(data);
     this.setState({ user: {
       id: data.id,
       avatar: data.avatar,
       email: data.email,
       name: data.name,
       trips: data.trips,
+    }})
+  }
+
+  loadTrip = (data) => {
+    console.log(data);
+    this.setState({ trip : {
+      id: data.id,
+      avatar: data.avatar,
+      name: data.name,
+      events: data.events,
+    }})
+  }
+
+  loadEvent = (data) => {
+    console.log(data);
+    this.setState({ event : {
+      id: data.id,
+      name: data.name,
+      accountings: data.accountings,
     }})
   }
 
@@ -132,6 +162,8 @@ class App extends Component {
           <Trip
             user={this.state.user} 
             changePage={this.changePage}
+            loadTrip={this.loadTrip}
+            type="trip" 
           />
         )
 
@@ -142,8 +174,11 @@ class App extends Component {
 
       case "tasks":
         return (
-          <Task 
+          <Task
+            trip={this.state.trip}
             changePage={this.changePage}
+            loadEvent={this.loadEvent}
+            type="task"
           />
         )
 
@@ -151,6 +186,7 @@ class App extends Component {
         return (
           <Accounting 
             changePage={this.changePage}
+            event={this.state.event}
           />
         )
 

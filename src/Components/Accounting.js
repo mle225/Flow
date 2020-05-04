@@ -8,7 +8,8 @@ import "./Common/Accounting.css";
 import "./Common/background.css";
 import backLogo from "./Common/settings.png"
 // import fake data
-import {task, accountings} from "./Common/example_accountings.js";
+// import {task, accountings} from "./Common/example_accountings.js";
+
 import BackBt from './Common/BackBt';
 import SearchBar from './Common/SearchBar';
 import Butt from './Common/Butt';
@@ -30,6 +31,7 @@ export default class Accounting extends React.Component {
 	}
 
 	render () {
+		const accountings = this.props.event.accountings;
 		const fAcc = accountings.filter(acc => {
 				return acc.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
 			})  
@@ -38,7 +40,7 @@ export default class Accounting extends React.Component {
 				<div class="not-flow">
 					<TopBar 
 						back={this.back}
-						task={task}
+						task={this.props.event.name}
 						/>
 					<SearchBar
 						searchChange={this.searchChange}
@@ -73,7 +75,7 @@ class TopBar extends React.Component {
 	}
 
 	render () {
-		const task = this.props.task.name;
+		const task = this.props.task;
 
 		return (
 		  	<div id = "accounting-top-bar" className = "flex items-center w-100">
@@ -140,7 +142,7 @@ class List extends React.Component {
 	}
 
 	static propTypes = {
-		accountings: PropTypes.string,
+		accountings: PropTypes.object,
 	}
 
 	render () {
@@ -175,7 +177,7 @@ class Row extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			pay : this.props.accounting.pay,
+			paid : this.props.accounting.paid,
 			joined : this.props.accounting.joined
 		}
 	}
@@ -188,7 +190,7 @@ class Row extends React.Component {
 	render () {
 		const rowType = this.props.rowType;
 		const name = this.props.accounting.name;
-		const {pay, joined} = this.state;
+		const {paid, joined} = this.state;
 		return (
 			<div className="accounting-row-wrapper">
 			  	<div className = {rowType}>
@@ -203,14 +205,14 @@ class Row extends React.Component {
 				  			<input className = "input-pay"
 								type="number"
 							   	defaultValue = "0"
-						       	value={pay}
+						       	value={paid}
 						       	onChange={event => this.setState({pay: event.target.value.replace(/\D/,'')})}
 						    />
 				  		</div>
 
 				  		{/* Joined */}
 				  		<div className = "dtc tc w-third accoungint-joined">
-							{joined === "1"
+							{joined === true
 								? <input defaultChecked type="checkbox"/>
 							    : <input type="checkbox"/>
 							}
