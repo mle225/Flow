@@ -12,7 +12,8 @@ export default class ShareLinkPage extends Component {
 			emails:[
 				'a@g.com',
 				'b@g.com',
-				'c@g.com'
+				'c@g.com',
+				'd@g.com'
 			]
 		}
 	}
