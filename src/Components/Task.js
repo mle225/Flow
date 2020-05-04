@@ -14,17 +14,15 @@ import List from './Common/List';
 import BackBt from './Common/BackBt';
 import Avatar from './Common/Avatar';
 import Butt from './Common/Butt';
+import fakeTripAva from './Common/yosemite.jpg';
 
 // import fake data
-import {trip, tasks} from "./Common/example_tasks.js"
+// import {trip, tasks} from "./Common/example_tasks.js"
 
 export default class Task extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			admin: this.props.admin,
-			username: this.props.username,
-			tripid: this.props.tripid,
 			searchfield: ''
 		}
 	}
@@ -54,13 +52,21 @@ export default class Task extends React.Component {
 	}
 
 	render () {
+		const type = this.props.type;
+		let tasks = this.props.trip.events;
 		const fTasks = tasks.filter(task => {
 				return task.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
 			})  
+
+		let name_and_avatar = {
+			name: this.props.trip.name,
+			avatar: fakeTripAva,
+		}
+
 		return (
 			<div id="task-screen flex flex-column">
 				<div id="top" class="not-flow">
-					<TopBar trip={trip}/>
+					<TopBar name_and_avatar={name_and_avatar} back={this.back}/>
 					<SearchBar
 						searchChange={this.searchChange}
 					/>
@@ -69,7 +75,10 @@ export default class Task extends React.Component {
 			 	<div class="flow">
 					<List 
 						entries={fTasks}
-						ava={false}
+						avaOk={false}
+						type={type}
+						changePage={this.props.changePage}
+						loadData={this.props.loadEvent}
 					/>
 				</div>
 				<div className="tc">
@@ -90,22 +99,22 @@ class TopBar extends React.Component {
 	}
 
 	static propTypes = {
-		trip: PropTypes.object,
+		name_and_avatar: PropTypes.object,
 	}
 
 	render () {
-		const tripname = this.props.trip.name;
-		const avatar = this.props.trip.avatar;
+		const tripname = this.props.name_and_avatar.name;
+		const avatar = this.props.name_and_avatar.avatar;
 
 		return (
 		  	<div id = "task-top-bar" class = "flex w-100">
 		  		<div className='pr2 pt2'>
-		  			<BackBt onClick={this.back} />
+		  			<BackBt onClick={this.props.back} />
 		  		</div>
 		  		<div className='w-100 flex justify-between'>
 			  		<div className= "w-15 pr3 flex items-center">
 			  			<Avatar  
-			  				link = {require("" + avatar)}
+			  				link = {avatar}
 			  				onClick={this.props.personal}
 			  			/>
 			  		</div>
