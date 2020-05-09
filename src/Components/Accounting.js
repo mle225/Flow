@@ -18,6 +18,7 @@ export default class Accounting extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
+			accountings: this.props.event.accountings,
 			searchfield:''
 		}
 	}
@@ -28,6 +29,25 @@ export default class Accounting extends React.Component {
 
 	searchChange = (event) => {
 		this.setState({searchfield : event.target.value})
+	}
+
+	save = (event) => {
+		const saveData = this.state.accountings.forEach(acc => {
+			fetch('http://localhost:3000/saveaccounting', {
+				method: 'PUT',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+		          memberid: acc.id,
+		          eventid: this.props.event.id,
+		          paid: acc.paid,
+		          joined: acc.joined,
+				})
+			})
+			.then(response => {
+				console.log("succeed");
+			})
+			.catch(err => console.log(err));			
+		})
 	}
 
 	render () {
@@ -56,7 +76,7 @@ export default class Accounting extends React.Component {
 				<div className="tc">
 					<Butt 
 						className='gen'
-						onClick={this.generate}
+						onClick={this.save}
 						value="Save Values"
 					/>
 				</div>
@@ -177,6 +197,7 @@ class Row extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
+			accounting: this.props.accounting,
 			paid : this.props.accounting.paid,
 			joined : this.props.accounting.joined
 		}
@@ -187,12 +208,23 @@ class Row extends React.Component {
 		accounting: PropTypes.object,
 	}
 
+	updatePaid = event => {
+		this.setState({paid: event.target.value})
+		this.props.accounting.paid = event.target.value
+	}
+
+	updateJoined = event => {
+		this.setState({joined: event.target.checked})
+		this.props.accounting.joined = event.target.checked
+	}
+
 	render () {
 		const rowType = this.props.rowType;
 		const name = this.props.accounting.name;
+		const id = "user-" + this.props.accounting.id;
 		const {paid, joined} = this.state;
 		return (
-			<div className="accounting-row-wrapper">
+			<div className="accounting-row-wrapper" id = {id}>
 			  	<div className = {rowType}>
 				  	<div className = "dt flex justify-between accounting-row">
 				  		{/* Name */}
@@ -206,15 +238,15 @@ class Row extends React.Component {
 								type="number"
 							   	defaultValue = "0"
 						       	value={paid}
-						       	onChange={event => this.setState({pay: event.target.value.replace(/\D/,'')})}
+						       	onChange={this.updatePaid}
 						    />
 				  		</div>
 
 				  		{/* Joined */}
 				  		<div className = "dtc tc w-third accoungint-joined">
 							{joined === true
-								? <input defaultChecked type="checkbox"/>
-							    : <input type="checkbox"/>
+								? <input defaultChecked type="checkbox" onChange={this.updateJoined}/>
+							    : <input type="checkbox" onChange={this.updateJoined}/>
 							}
 				  		</div>
 
