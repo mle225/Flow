@@ -25,6 +25,7 @@ code {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 60vh;
+  min-height: 10vh;
 }
 
 ::-webkit-scrollbar {display:none;}
