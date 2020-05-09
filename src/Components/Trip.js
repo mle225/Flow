@@ -28,6 +28,7 @@ export default class Trip extends React.Component {
 	static propTypes = {
 		user: PropTypes.object,
 		changePage: PropTypes.func,
+		type: PropTypes.string,
 	}
 
 	personal = () => {
@@ -47,6 +48,7 @@ export default class Trip extends React.Component {
 	}
 
 	render () {
+		const type = this.props.type;
 		let trips = this.props.user.trips;
 		const ftrips =trips.filter(trip => {
 				return trip.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
@@ -77,6 +79,9 @@ export default class Trip extends React.Component {
 					<List 
 						entries={ftrips}
 						avaOk={true}
+						type={type}
+						changePage={this.props.changePage}
+						loadData={this.props.loadTrip}
 					/>
 				</div>
 			</div>

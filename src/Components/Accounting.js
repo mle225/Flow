@@ -8,7 +8,8 @@ import "./Common/Accounting.css";
 import "./Common/background.css";
 import backLogo from "./Common/settings.png"
 // import fake data
-import {task, accountings} from "./Common/example_accountings.js";
+// import {task, accountings} from "./Common/example_accountings.js";
+
 import BackBt from './Common/BackBt';
 import SearchBar from './Common/SearchBar';
 import Butt from './Common/Butt';
@@ -17,6 +18,7 @@ export default class Accounting extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
+			accountings: this.props.event.accountings,
 			searchfield:''
 		}
 	}
@@ -29,7 +31,27 @@ export default class Accounting extends React.Component {
 		this.setState({searchfield : event.target.value})
 	}
 
+	save = (event) => {
+		const saveData = this.state.accountings.forEach(acc => {
+			fetch('http://localhost:3000/saveaccounting', {
+				method: 'PUT',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify({
+		          memberid: acc.id,
+		          eventid: this.props.event.id,
+		          paid: acc.paid,
+		          joined: acc.joined,
+				})
+			})
+			.then(response => {
+				console.log("succeed");
+			})
+			.catch(err => console.log(err));			
+		})
+	}
+
 	render () {
+		const accountings = this.props.event.accountings;
 		const fAcc = accountings.filter(acc => {
 				return acc.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
 			})  
@@ -38,7 +60,7 @@ export default class Accounting extends React.Component {
 				<div class="not-flow">
 					<TopBar 
 						back={this.back}
-						task={task}
+						task={this.props.event.name}
 						/>
 					<SearchBar
 						searchChange={this.searchChange}
@@ -54,7 +76,7 @@ export default class Accounting extends React.Component {
 				<div className="tc">
 					<Butt 
 						className='gen'
-						onClick={this.generate}
+						onClick={this.save}
 						value="Save Values"
 					/>
 				</div>
@@ -73,7 +95,7 @@ class TopBar extends React.Component {
 	}
 
 	render () {
-		const task = this.props.task.name;
+		const task = this.props.task;
 
 		return (
 		  	<div id = "accounting-top-bar" className = "flex items-center w-100">
@@ -140,7 +162,7 @@ class List extends React.Component {
 	}
 
 	static propTypes = {
-		accountings: PropTypes.string,
+		accountings: PropTypes.object,
 	}
 
 	render () {
@@ -175,7 +197,8 @@ class Row extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			pay : this.props.accounting.pay,
+			accounting: this.props.accounting,
+			paid : this.props.accounting.paid,
 			joined : this.props.accounting.joined
 		}
 	}
@@ -185,12 +208,23 @@ class Row extends React.Component {
 		accounting: PropTypes.object,
 	}
 
+	updatePaid = event => {
+		this.setState({paid: event.target.value})
+		this.props.accounting.paid = event.target.value
+	}
+
+	updateJoined = event => {
+		this.setState({joined: event.target.checked})
+		this.props.accounting.joined = event.target.checked
+	}
+
 	render () {
 		const rowType = this.props.rowType;
 		const name = this.props.accounting.name;
-		const {pay, joined} = this.state;
+		const id = "user-" + this.props.accounting.id;
+		const {paid, joined} = this.state;
 		return (
-			<div className="accounting-row-wrapper">
+			<div className="accounting-row-wrapper" id = {id}>
 			  	<div className = {rowType}>
 				  	<div className = "dt flex justify-between accounting-row">
 				  		{/* Name */}
@@ -203,16 +237,16 @@ class Row extends React.Component {
 				  			<input className = "input-pay"
 								type="number"
 							   	defaultValue = "0"
-						       	value={pay}
-						       	onChange={event => this.setState({pay: event.target.value.replace(/\D/,'')})}
+						       	value={paid}
+						       	onChange={this.updatePaid}
 						    />
 				  		</div>
 
 				  		{/* Joined */}
 				  		<div className = "dtc tc w-third accoungint-joined">
-							{joined === "1"
-								? <input defaultChecked type="checkbox"/>
-							    : <input type="checkbox"/>
+							{joined === true
+								? <input defaultChecked type="checkbox" onChange={this.updateJoined}/>
+							    : <input type="checkbox" onChange={this.updateJoined}/>
 							}
 				  		</div>
 

@@ -14,6 +14,39 @@ export default class Row extends React.Component {
 	 	rowType: PropTypes.string,
 	 	entry: PropTypes.object,
 	 	avaOk: PropTypes.bool,
+	 	type: PropTypes.string,
+	 	changePage: PropTypes.func,
+	}
+
+	onNameClick = () => {
+		if (this.props.type === "trip") {
+			const link = "http://localhost:3000/goToTask/" + this.props.entry.id;
+			fetch(link)
+			.then(response => response.json())
+			.then(data => {
+				if (data.id) {
+					data.name = this.props.entry.name;
+					this.props.loadData(data);
+					this.props.changePage('tasks');
+				}
+			})
+			.catch(err => console.log(err));
+
+		} else if (this.props.type === "task") {
+			const link = "http://localhost:3000/goToAccounting/" + this.props.entry.id;
+			fetch(link)
+			.then(response => response.json())
+			.then(data => {
+				if (data.id) {
+					data.name = this.props.entry.name;
+					this.props.loadData(data);
+					this.props.changePage('acc');
+				}
+			})
+			.catch(err => console.log(err));
+		} else {
+			this.props.changePage('');
+		}
 	}
 
 	render () {

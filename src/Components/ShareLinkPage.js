@@ -8,6 +8,7 @@ export default class ShareLinkPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state={
+			delEmail: '',
 			currentEmail: '',
 			delEmail: '',
 			tripName:this.props.tripName,
@@ -39,31 +40,49 @@ export default class ShareLinkPage extends Component {
 	add = () => {
 		if (this.state.currentEmail.length) {
 			let newEmails = this.state.emails;
-			newEmails.push(this.state.currentEmail);
-			this.setState({
-				currentEmail: '',
-				emails: newEmails
+			let found = newEmails.includes(this.state.currentEmail);
+			if (!found) {
+				newEmails.push(this.state.currentEmail);
+				this.setState({
+					currentEmail: '',
+					emails: newEmails
+				})
 			}
-		)}
+		}
 	}
 
 	del = (email) => {
+		const fEmails = this.state.emails.filter(listemail => {
+			return listemail !== email;
+		})
 		this.setState({
-			emails: this.state.emails.filter(elem => 
-				elem != email),
-			delEmail: ''
-		});
+			delEmail : email,
+			emails: fEmails
+		})
 	}
 
 	render() {
-		var rows = this.state.emails.map(entry => {
-			return (
-				<MemRow
-					email={entry}
-					del={this.del}
-				/>
+		const fEmails = this.state.emails.filter(email => {
+			return email !== this.state.delEmail;
+		})
+
+		const rows = [];
+
+		fEmails.forEach(email => {
+			rows.push(
+				<div className='tc flex justify-center'>
+				<p className='pa1 tc white f5 underline'> 
+					{email}
+				</p>
+				<a 
+					className='white f4 pt3 pl2'
+					onClick={() => this.del(email)}>
+				X	
+				</a>
+			</div>
 			)
 		})
+
 		return (
 			<div>
 				<BackBt 
@@ -84,13 +103,13 @@ export default class ShareLinkPage extends Component {
 							onClick={this.add}
 						/>
 					</div> 
-					<div className='pa2 tc flow vh-50'>
+					<div className='pa2 tc flow'>
 						{rows}
 					</div>
-					<div className='pa1 tc'>
-						<Butt 
-							onClick={this.share}
+					<div className='tc '>
+						<Butt
 							value='Share'
+							onClick={this.share}
 						/>
 					</div>
 				</div>
@@ -98,34 +117,3 @@ export default class ShareLinkPage extends Component {
 		)
 	}
 }
-
-class MemRow extends Component {
-
-	delete = () => {
-		this.props.del(this.props.email);
-	}
-
-	render() {
-		const {email} = this.props;
-		return (
-			<div className='flex justify-center'>
-				<div className='pa1'>
-					<p className='tc white f5 underline'> 
-						{email}
-					</p>
-				</div>
-				<div className='pl3 pr3 pt3'>
-					<button 
-						onClick={this.delete}
-						className='white'
-						style={{border:"none", backgroundColor: "transparent"}}>
-						X
-					</button>
-				</div>
-			</div>
-		)
-	}
-}
-
-
-
