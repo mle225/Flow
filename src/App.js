@@ -19,14 +19,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: "sharelink",
-      user: {
-        id : '',
-        avatar: '',
-        email: '',
-        name: '',
-        trips: [],
-      },
+      page: "",
       trip: {
         id: '',
         avatar: '',
@@ -39,23 +32,6 @@ class App extends Component {
         accountings: [],
       }
     }
-  }
-
-  changePage = (nextPage) => {
-    this.setState({
-      page: nextPage
-    });
-  };
-
-  loadUser = (data) => {
-    console.log(data);
-    this.setState({ user: {
-      id: data.id,
-      avatar: data.avatar,
-      email: data.email,
-      name: data.name,
-      trips: data.trips,
-    }})
   }
 
   loadTrip = (data) => {
@@ -92,14 +68,6 @@ class App extends Component {
           </div>
         );
 
-      case "create":
-        return (
-          <CreatePage 
-            changePage={this.changePage}
-            loadUser={this.loadUser}
-          />
-        )
-
       case "import":
         return (
           <ImportMemberPage />
@@ -114,13 +82,6 @@ class App extends Component {
         return (
           <ShareLinkPage 
             changePage={this.changePage}
-          />
-        )
-
-      case "forget":
-        return (
-          <ForgotPage 
-            changePage={this.changePage} 
           />
         )
 
