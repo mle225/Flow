@@ -19,7 +19,7 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: "",
+      page: "sharelink",
       user: {
         id : '',
         avatar: '',
