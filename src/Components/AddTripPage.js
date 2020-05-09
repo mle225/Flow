@@ -21,7 +21,7 @@ class AddTripPage extends Component {
 	}
 
 	continue = () => {
-		this.props.changePage('');
+		this.props.changePage('import');
 	}
 
 	back = () => {
