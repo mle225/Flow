@@ -17,13 +17,13 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: "",
-      // trip: {
-      //   id: '',
-      //   avatar: '',
-      //   name: '',
-      //   events: [],
-      // },
+      page: "acc",
+      trip: {
+        id: '',
+        avatar: '',
+        name: '',
+        events: [],
+      },
       event : {
         id: '',
         name: '',

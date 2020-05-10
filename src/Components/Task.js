@@ -23,7 +23,13 @@ export default class Task extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state={
-			searchfield: ''
+			page: '',
+			searchfield: '',
+			event : {
+	        id: '',
+	        name: '',
+	        accountings: [],
+	      }
 		}
 	}
 
@@ -31,24 +37,30 @@ export default class Task extends React.Component {
 		this.props.changePage('trips');
 	}
 
+	// TODO : CHANGE ROUTING AFTER ADDING NEW PAGES
+
 	personal = () => {
-		this.props.changePage('');
+		this.changePage('tasks');
 	}
 
 	getSet = () => {
-		this.props.changePage('');
+		this.changePage('tasks');
 	}
 
 	add = () => {
-		this.props.changePage('');
+		this.changePage('tasks');
 	}
 
 	searchChange = event => {
 		this.setState({ searchfield : event.target.value})
 	}
 
+	changePage = (nextPage) => {
+		this.setState({page: nextPage})
+	}
+
 	generate = () => {
-		this.props.changePage('');
+		this.changePage('');
 	}
 
 	render () {

@@ -32,7 +32,7 @@ export default class ImportMemberPage extends Component {
 	}
 
 	skip = () => {
-		this.props.changePage('');
+		this.props.changePage('confirmImport');
 	}
 
 	searchChange = (event) => {

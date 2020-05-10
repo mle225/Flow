@@ -129,6 +129,7 @@ export default class Trip extends React.Component {
 		    	return (
 		    	    <ImportMemberPage 
 		    	    	tripname='a'
+		    	    	changePage={this.changePage}
 		    	    />
 		    	)
 			
