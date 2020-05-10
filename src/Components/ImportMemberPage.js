@@ -43,7 +43,7 @@ export default class ImportMemberPage extends Component {
 		console.log(data)
 		let arr = []
 		for (let mem of data) {
-			const tname= mem.trip.tripname;
+			const tname= mem.trip.name;
 			let trip = {
 				name: tname
 			};
