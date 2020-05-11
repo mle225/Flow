@@ -17,41 +17,92 @@ import Butt from './Common/Butt';
 export default class Accounting extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state={
-			accountings: this.props.event.accountings,
-			searchfield:''
+		this.state = {
+			page: '',
+			searchfield: '',
+			event: {
+				id: '',
+				name: '',
+				accountings: [],
+			},
+			edited: false,
 		}
 	}
+	// ok
+	static propTypes = {
+		eventid: PropTypes.string,
+		changePage: PropTypes.func,
+	}
 
+	// ok 
+	componentDidMount = () => {
+		this.fetchData()
+	}
+	
+	fetchData = () => {
+		const link = "http://localhost:3000/getAccountingPage/" + this.props.eventid
+		fetch(link)
+		.then(response => response.json())
+		.then(event => {
+			this.loadEvent(event)
+			if (!event.accountings[0]) {
+				this.state.event.accountings=[];
+			}
+		})
+		.catch(err => console.log("Couldn't show accounting page"))
+	}
+
+	// ok
+	loadEvent = (data) => {
+	    this.setState({ event: {
+	    	id: data.id,
+	    	name: data.name,
+	    	accountings: data.accountings,
+	    }})
+	}
+
+	// ok
 	back = () => {
 		this.props.changePage('tasks');
 	}
 
+	// ok
 	searchChange = (event) => {
 		this.setState({searchfield : event.target.value})
 	}
 
+	// ok
+	updateEdited = () => {
+		this.setState({edited: true})
+	}
+
+	// ok
 	save = (event) => {
-		const saveData = this.state.accountings.forEach(acc => {
-			fetch('http://localhost:3000/saveaccounting', {
-				method: 'PUT',
-				headers: {'Content-Type': 'application/json'},
-				body: JSON.stringify({
-		          memberid: acc.id,
-		          eventid: this.props.event.id,
-		          paid: acc.paid,
-		          joined: acc.joined,
+		if (!this.state.edited) {
+			console.log("Yo yo yo, edit something mother fucker");
+			this.fetchData();
+		} else {
+			const saveData = this.state.event.accountings.forEach(acc => {
+				fetch('http://localhost:3000/saveaccounting', {
+					method: 'PUT',
+					headers: {'Content-Type': 'application/json'},
+					body: JSON.stringify({
+			          memberid: acc.id,
+			          eventid: this.state.event.id,
+			          paid: acc.paid,
+			          joined: acc.joined,
+					})
 				})
+				.then(response => {
+					console.log("succeed");
+				})
+				.catch(err => console.log("some stupid problems with saving data"));			
 			})
-			.then(response => {
-				console.log("succeed");
-			})
-			.catch(err => console.log(err));			
-		})
+		}
 	}
 
 	render () {
-		const accountings = this.props.event.accountings;
+		const accountings = this.state.event.accountings;
 		const fAcc = accountings.filter(acc => {
 				return acc.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
 			})  
@@ -60,7 +111,7 @@ export default class Accounting extends React.Component {
 				<div class="not-flow">
 					<TopBar 
 						back={this.back}
-						task={this.props.event.name}
+						task={this.state.event.name}
 						/>
 					<SearchBar
 						searchChange={this.searchChange}
@@ -71,6 +122,7 @@ export default class Accounting extends React.Component {
 			 	<div class="flow">
 					<List 
 						accountings={fAcc}
+						updateEdited={this.updateEdited}
 					/>
 				</div>
 				<div className="tc">
@@ -163,6 +215,7 @@ class List extends React.Component {
 
 	static propTypes = {
 		accountings: PropTypes.object,
+		updateEdited: PropTypes.func,
 	}
 
 	render () {
@@ -181,7 +234,7 @@ class List extends React.Component {
 	  	i = i + 1;
 
 	  	rows.push(
-	  		<Row rowType={rowType} accounting={accounting}/>
+	  		<Row rowType={rowType} accounting={accounting} updateEdited={this.props.updateEdited}/>
 	  	);
 	  });
 
@@ -206,16 +259,19 @@ class Row extends React.Component {
 	static propTypes = {
 		rowType: PropTypes.string,
 		accounting: PropTypes.object,
+		updateEdited: PropTypes.func,
 	}
 
 	updatePaid = event => {
 		this.setState({paid: event.target.value})
 		this.props.accounting.paid = event.target.value
+		this.props.updateEdited()
 	}
 
 	updateJoined = event => {
 		this.setState({joined: event.target.checked})
 		this.props.accounting.joined = event.target.checked
+		this.props.updateEdited()
 	}
 
 	render () {

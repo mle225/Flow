@@ -11,6 +11,7 @@ import settingsLogo from "./Common/settings.png";
 import deleteLogo from "./Common/delete.png";
 import SearchBar from './Common/SearchBar';
 import List from './Common/List';
+import Accounting from './Accounting';
 import BackBt from './Common/BackBt';
 import Avatar from './Common/Avatar';
 import Butt from './Common/Butt';
@@ -20,25 +21,69 @@ import fakeTripAva from './Common/yosemite.jpg';
 // import {trip, tasks} from "./Common/example_tasks.js"
 
 export default class Task extends React.Component {
+	// ok
 	constructor(props) {
 		super(props);
 		this.state={
 			page: '',
 			searchfield: '',
-			event : {
-	        id: '',
-	        name: '',
-	        accountings: [],
-	      }
+			trip: {
+				id: '',
+				avatar: '',
+				name: '',
+				events: [],
+			},
+			eventid: '',
 		}
 	}
 
+	// ok
+	static propTypes = {
+		tripid: PropTypes.string,
+		changePage: PropTypes.func,
+	}
+
+	// ok
+	componentDidMount = () => {
+		const link = "http://localhost:3000/getTripPage/" + this.props.tripid;
+		fetch(link)
+		.then(response => response.json())
+		.then(trip => {
+			this.loadTrip(trip)
+			if (!trip.events[0]) {
+				this.state.trip.events=[];
+			}
+		})
+		.catch(err => console.log("Cannot show trip page !"))
+	}
+
+	// ok
+	loadTrip = (data) => {
+	    this.setState({ trip: {
+	    	id: data.id,
+	    	avatar: data.avatar,
+	    	name: data.name,
+	    	events: data.events,
+	    }})
+	 }
+
+	// ok
 	back = () => {
 		this.props.changePage('trips');
 	}
 
-	// TODO : CHANGE ROUTING AFTER ADDING NEW PAGES
+	// ok, generic changing page function
+	changePage = (nextPage) => {
+		this.setState({page: nextPage})
+	}
 
+	// ok
+	goToAccounting = (eventid) => {
+		this.setState({ eventid : eventid })
+		this.changePage('acc')
+	}
+
+	// TODO : CHANGE ROUTING AFTER ADDING NEW PAGES
 	personal = () => {
 		this.changePage('tasks');
 	}
@@ -55,53 +100,64 @@ export default class Task extends React.Component {
 		this.setState({ searchfield : event.target.value})
 	}
 
-	changePage = (nextPage) => {
-		this.setState({page: nextPage})
-	}
-
 	generate = () => {
 		this.changePage('');
 	}
 
 	render () {
-		const type = this.props.type;
-		let tasks = this.props.trip.events;
+		let tasks = this.state.trip.events;
 		const fTasks = tasks.filter(task => {
 				return task.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
 			})  
 
 		let name_and_avatar = {
-			name: this.props.trip.name,
+			name: this.state.trip.name,
 			avatar: fakeTripAva,
 		}
+		let {page} = this.state;
 
-		return (
-			<div id="task-screen flex flex-column">
-				<div id="top" class="not-flow">
-					<TopBar name_and_avatar={name_and_avatar} back={this.back}/>
-					<SearchBar
-						searchChange={this.searchChange}
-					/>
-					<Title/>
-			 	</div>
-			 	<div class="flow">
-					<List 
-						entries={fTasks}
-						avaOk={false}
-						type={type}
-						changePage={this.props.changePage}
-						loadData={this.props.loadEvent}
-					/>
-				</div>
-				<div className="tc">
-					<Butt 
-						className='gen'
-						onClick={this.generate}
-						value="Genererate Transaction"
-					/>
-				</div>
-			</div>
-		)
+		switch(page) {
+			case "acc":
+		        return (
+		          <Accounting 
+		          	eventid={this.state.eventid}
+		            changePage={this.changePage}
+		          />
+		        )
+
+		    default:
+				return (
+					<div id="task-screen flex flex-column">
+						<div id="top" class="not-flow">
+							<TopBar name_and_avatar={name_and_avatar}
+									back={this.back}
+									add={this.add}
+									getSet={this.getSet}
+									personal={this.personal}
+							/>
+							<SearchBar
+								searchChange={this.searchChange}
+							/>
+							<Title/>
+						</div>
+						<div class="flow">
+							<List 
+								entries={fTasks}
+								avaOk={false}
+								type={"task"}
+								changePage={this.goToAccounting}
+							/>
+						</div>
+						<div className="tc">
+							<Butt 
+								className='gen'
+								onClick={this.generate}
+								value="Genererate Transaction"
+							/>
+						</div>
+					</div>
+				)
+		}
 	}
 }
 
@@ -133,7 +189,7 @@ class TopBar extends React.Component {
 
 			  		{/* Name */}
 			  		<div class = "w-70 white pt3 b f4 tc justify-center">
-			  			<div className = "name">{tripname}</div>
+			  			<div className = "name">{""}</div>
 			  		</div>
 
 			  		{/* Settings */}
@@ -143,14 +199,14 @@ class TopBar extends React.Component {
 		  					src = {settingsLogo} 
 		  					width = "20" 
 		  					height = "20"
-		  					onClick={this.getSet}
+		  					onClick={this.props.getSet}
 		  					/>
 		  				<img 
 		  					className='pl2 pointer'
 		  					src = {addLogo} 
 		  					width = "20" 
 		  					height = "20"
-		  					onClick={this.add}
+		  					onClick={this.props.add}
 		  					/>
 			  		</div>
 		  		</div>

@@ -10,7 +10,8 @@ class CreatePage extends Component {
 			name:'',
 			email:'',
 			password:'',
-			confirmPass:''
+			confirmPass:'',
+			userid:'',
 		}
 	}
 
@@ -28,14 +29,11 @@ class CreatePage extends Component {
 			.then(response => response.json())
 			.then(user => {
 				if (user) {
-					this.props.loadUser(user)
-					this.props.changePage('trips')
+					this.setState({userid: user.id})
+					this.props.changePage('trips');
 				}
 			})
 		}
-		// else {
-		// 	console.log('no');
-		// }
 	}
 
 	back = () => {

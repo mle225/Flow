@@ -13,13 +13,7 @@ class LoginPage extends Component {
 			page:'',
 			signInEmail:'',
 			signInPass:'',
-			user: {
-		        id : '',
-		        avatar: '',
-		        email: '',
-		        name: '',
-		        trips: [],
-		    }
+			userid:'',
 		}
 	}
 
@@ -35,17 +29,8 @@ class LoginPage extends Component {
 		.then(response => response.json())
 		.then(user => {
 			if (user.id) {
-				if (user.trips[0]) {
-					console.log(1);
-					this.loadUser(user);
-					this.changePage("trips");
-				}
-				else {
-					user.trips=[];
-					console.log(2);
-					this.loadUser(user);
-					this.changePage("trips");
-				}
+				this.setState({userid: user.id})
+				this.changePage("trips");
 			}
 		})
 		.catch(err => console.log(err));
@@ -95,10 +80,8 @@ class LoginPage extends Component {
 			case "trips":
 		        return (
 		        	<Trip
-			            user={this.state.user} 
+			            userid={this.state.userid} 
 			            changePage={this.changePage}
-			            loadTrip={this.loadTrip}
-			            type="trip" 
 		        	/>
 		        )
 
