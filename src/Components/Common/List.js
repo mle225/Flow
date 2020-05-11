@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 export default class List extends React.Component {
 	render () {
-		const {entries, avaOk, type, changePage, loadData} = this.props;
+		const {entries, avaOk, type, changePage} = this.props;
 	  	const rows = []
 	  	let i = 0
 
@@ -24,7 +24,6 @@ export default class List extends React.Component {
 		  			avaOk={avaOk}
 		  			type={type}
 		  			changePage={changePage}
-		  			loadData={loadData}
 		  		/>
 		  	);
 	  	});

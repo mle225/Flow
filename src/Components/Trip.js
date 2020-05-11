@@ -11,7 +11,7 @@ import settingsLogo from "./Common/settings.png";
 import SearchBar from './Common/SearchBar';
 import Avatar from './Common/Avatar';
 import List from './Common/List';
-
+import Task from './Task';
 import AddTripPage from './AddTripPage';
 import ImportMemberPage from './ImportMemberPage';
 import ConfirmImport from './ConfirmImport';
@@ -23,71 +23,102 @@ import SettingTemplatePage from './SettingTemplatePage';
 import fakeMemAva from "./Common/mtp.jpg";
 
 export default class Trip extends React.Component {
+	// ok
 	constructor(props) {
 		super(props);
 		this.state={
-			user: this.props.user,
-			trip: {
-		        id: '',
-		        avatar: '',
-		        name: '',
-		        events: [],
-		    },
 			page: '',
-			searchfield:''
+			searchfield:'',
+			user: {
+		        id : '',
+		        avatar: '',
+		        email: '',
+		        name: '',
+		        trips: [],
+		    },
+		    tripid: ''
 		}
 	}
 
+	// ok
 	static propTypes = {
-		user: PropTypes.object,
+		userid: PropTypes.string,
 		changePage: PropTypes.func,
-		type: PropTypes.string,
 	}
 
-	loadTrip = (data) => {
-	    console.log(data);
-	    this.setState({ trip : {
-	      	id: data.id,
-	      	avatar: data.avatar,
-	      	name: data.name,
-	      	events: data.events,
+	// ok
+	componentDidMount = () => {
+		const link = "http://localhost:3000/getUserPage/" + this.props.userid;
+		fetch(link)
+		.then(response => response.json())
+		.then(user => {
+			if (user.id) {
+				this.loadUser(user);
+				if (!user.trips[0]) {
+					this.state.user.trips=[];
+				}
+			}
+		})
+		.catch(err => console.log("Error when loading all trips"))
+	}
+
+	// ok
+	loadUser = (data) => {
+	    this.setState({ user: {
+	    	id: data.id,
+	    	avatar: data.avatar,
+	    	email: data.email,
+	    	name: data.name,
+	    	trips: data.trips,
 	    }})
+	 }
+
+	// ok, go to trip page
+	goToTrip = (tripid) => {
+		this.setState({ tripid : tripid })
+		this.changePage('tasks')
 	}
 
+	// ok, go back to login page
 	personal = () => {
 		this.props.changePage('personal')
 	}
 
-	getSet = () => {
-		this.changePage('settings');
-	}
-
-	add = () => {
-		this.changePage('addtrip');
-	}
-
-	searchChange = event => {
-		this.setState({ searchfield : event.target.value})
-	}
-
+	// ok, generic changing page function
 	changePage = (nextPage) => {
 		this.setState({page: nextPage})
 	}
 
+	// ok, go to settings mode
+	getSet = () => {
+		this.changePage('settings');
+	}
+
+	// ok, add more trip
+	add = () => {
+		this.changePage('addtrip');
+	}
+
+	// ok, show trips when searched
+	searchChange = event => {
+		this.setState({ searchfield : event.target.value})
+	}
+
+	// ok
 	render () {
-		const type = this.props.type;
-		let trips = this.props.user.trips;
-		const ftrips =trips.filter(trip => {
-				return trip.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
+		let trips = this.state.user.trips;
+		const ftrips = trips.filter(trip => {
+			return trip.name.toLowerCase().includes(this.state.searchfield.toLowerCase());
 		});
 
 		let name_and_avatar = {
-			name: this.props.user.name,
+			name: this.state.user.name,
 			avatar: fakeMemAva,
 		}
 
 
 		let {page} = this.state;
+
 		switch(page) {
 
 			case "sharelink":
@@ -111,7 +142,7 @@ export default class Trip extends React.Component {
 		      	return (
 		        	<AddTripPage
 		          		changePage={this.changePage}
-		          		admin={this.state.user.username}
+		          		admin={this.state.user.name}
 		        	/>
 		      	)
 
@@ -132,8 +163,15 @@ export default class Trip extends React.Component {
 		    	    	changePage={this.changePage}
 		    	    />
 		    	)
-			
 
+			case "tasks":
+				return (
+				<Task
+					tripid={this.state.tripid}
+					changePage={this.changePage}
+				/>
+			)
+			
 			default:
 				return (
 					<div id="trip-screen">
@@ -155,9 +193,8 @@ export default class Trip extends React.Component {
 							<List 
 								entries={ftrips}
 								avaOk={true}
-								type={type}
-								changePage={this.props.changePage}
-								loadData={this.loadTrip}
+								type={"trip"}
+								changePage={this.goToTrip}
 							/>
 						</div>
 					</div>
@@ -172,6 +209,9 @@ class TopBar extends React.Component {
 	}
 
 	static propTypes = {
+		add: PropTypes.func,
+		getSet: PropTypes.func,
+		personal: PropTypes.func,
 		name_and_avater: PropTypes.object,
 	}
 

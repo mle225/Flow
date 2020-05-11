@@ -5,9 +5,9 @@ import ForgotPage from './Components/ForgotPage';
 import ConfirmPage from './Components/ConfirmPage';
 import MemPage from './Components/MemPage';
 import Transaction from './Components/Transaction';
-import Task from './Components/Task';
+//import Task from './Components/Task';
 import Members from './Components/Members';
-import Accounting from './Components/Accounting';
+//import Accounting from './Components/Accounting';
 // import AddTripPage from './Components/AddTripPage';
 // import ImportMemberPage from './Components/ImportMemberPage';
 // import ConfirmImport from './Components/ConfirmImport';
@@ -17,38 +17,8 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      page: "acc",
-      trip: {
-        id: '',
-        avatar: '',
-        name: '',
-        events: [],
-      },
-      event : {
-        id: '',
-        name: '',
-        accountings: [],
-      }
+      page: "",
     }
-  }
-
-  // loadTrip = (data) => {
-  //   console.log(data);
-  //   this.setState({ trip : {
-  //     id: data.id,
-  //     avatar: data.avatar,
-  //     name: data.name,
-  //     events: data.events,
-  //   }})
-  // }
-
-  loadEvent = (data) => {
-    console.log(data);
-    this.setState({ event : {
-      id: data.id,
-      name: data.name,
-      accountings: data.accountings,
-    }})
   }
 
   render() {
@@ -122,30 +92,11 @@ class App extends Component {
           <Transaction />
         )
 
-      case "tasks":
-        return (
-          <Task
-            trip={this.state.trip}
-            changePage={this.changePage}
-            loadEvent={this.loadEvent}
-            type="task"
-          />
-        )
-
-      case "acc":
-        return (
-          <Accounting 
-            changePage={this.changePage}
-            event={this.state.event}
-          />
-        )
-
       default: 
         return (
           <div className='tc flex flex-column'>
             <LoginPage 
               changePage={this.changePage}
-              loadUser={this.loadUser}
             />
          </div>
         );
