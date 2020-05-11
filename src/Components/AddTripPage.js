@@ -13,7 +13,7 @@ class AddTripPage extends Component {
 	constructor(props) {
 		super(props);
 		this.state= {
-			admin: this.props.username,
+			admin: this.props.admin,
 			tripname: '',
 			tripstart: new Date(),
 			tripend: new Date()
@@ -21,7 +21,7 @@ class AddTripPage extends Component {
 	}
 
 	continue = () => {
-		this.props.changePage('');
+		this.props.changePage('import');
 	}
 
 	back = () => {

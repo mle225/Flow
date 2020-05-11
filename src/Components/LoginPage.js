@@ -19,7 +19,7 @@ class LoginPage extends Component {
 		        email: '',
 		        name: '',
 		        trips: [],
-		     }
+		    }
 		}
 	}
 
